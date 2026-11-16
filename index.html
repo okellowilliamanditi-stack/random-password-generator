@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Genrate a <br><span>Random Password</span></h1>
+    <div class="display">
+        <input type="text" id="password" placeholder="password">
+        <img src="images/copy.png" alt="" onclick="copyPassword()">
+    </div>
+    <button onclick="createPassword()"><img src="images/generate.png" alt=""> Generate Password</button>
+</div>
+    <script>
+        // Get reference to the password input field
+        const passwordBox = document.getElementById("password");
+         // Define the desired length of the password
+        const length = 12;
+
+         // Define character sets for password generation
+        const upperCase =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = " abcdefghijklmnopqrstuvwxyz";
+        const number = "0123456789";
+        const symbol = "!@#$%^&*()+`~{][|\?/>.,<]}";
+
+        // Combine all character sets into one string
+
+        const allChars = upperCase + lowerCase + number + symbol;
+
+        // Function to generate a random password
+
+        function createPassword(){
+            let password = "";
+
+             // Add one character from each character set
+            password += upperCase[Math.floor(Math.random() * upperCase.length)];
+            password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+            password += number[Math.floor(Math.random() * number.length)];
+            password += symbol[Math.floor(Math.random() * symbol.length)];
+
+            // Add random characters from all character sets until desired length is reached
+
+            while(length > password.length){
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+
+            }
+            // Set the generated password as the value of the input field
+            passwordBox.value = password;
+
+
+        }
+
+            // Function to copy the generated password to the clipboard
+        function copyPassword(){
+            passwordBox.select();
+            // document.execCommand("copy");
+
+            // Use navigator.clipboard.writeText() to copy text to clipboard
+            navigator.clipboard.writeText(passwordBox.value)
+                .then(() => {
+                    console.log('Password copied to clipboard');
+                })
+                .catch(err => {
+                    console.error('Failed to copy password: ', err);
+                });
+        }
+    </script>
+</body>
+</html>
